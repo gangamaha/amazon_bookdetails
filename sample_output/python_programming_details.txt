@@ -1,0 +1,24 @@
+Name: Python Crash Course: A Hands-On, Project-Based Introduction to Programming
+Price: $25.01
+Name: Python Programming: Become an Expert at Python Today with Step by Step Instructions for Beginners
+Price: $13.40
+Name: Python Programming: An Introduction to Computer Science
+Price: $19.99
+Name: Learning Python, 5th Edition
+Price: $50.54
+Name: Automate the Boring Stuff with Python: Practical Programming for Total Beginners
+Price: $25.45
+Name: Programming the Raspberry Pi, Second Edition: Getting Started with Python
+Price: $10.89
+Name: Python: The Ultimate Beginner&#39;s Guide!
+Price: $10.54
+Name: Learn Python in One Day and Learn It Well: Python for Beginners with Hands-on Project. The only book&hellip;
+Price: $10.86
+Name: Python Pocket Reference (Pocket Reference (O&#39;Reilly))
+Price: $11.18
+Name: Python Programming for the Absolute Beginner, 3rd Edition
+Price: $17.87
+Name: Python for Informatics: Exploring Information
+Price: $9.99
+Name: Effective Python: 59 Specific Ways to Write Better Python (Effective Software Development Series)
+Price: $28.32
