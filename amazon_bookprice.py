@@ -1,17 +1,26 @@
-import urllib2
 from __builtin__ import any
+import datetime
+import sys
+
+version = 3
+my_python_version = sys.version_info[0]  # My python version is 2.7 so my_python_version will be 2
+if my_python_version < version:
+    import urllib2 as py_url  # import urllib2 for Python 2.x
+else:
+    import urllib.request as py_url  # import urllib.request for Python 3.x
 
 
 def download_link(url):
     try:
         headers = {}
         headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"
-        req = urllib2.Request(url, headers=headers)
-        response = urllib2.urlopen(req)
+        req = py_url.Request(url, headers=headers)
+        response = py_url.urlopen(req)
         page = response.read()
         return page
-    except:
-        print "Cannot reach amazon.com, check your internet connection and try again later!!"
+    except Exception as e:
+        print(str(e))
+        print("Cannot reach amazon.com, check your internet connection and try again later!!")
         exit(0)
 
 
@@ -63,12 +72,14 @@ def get_product_details(product):
     try:
         headers = {}
         headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"
-        req = urllib2.Request(product, headers=headers)
-        resp = urllib2.urlopen(req)
+        req = py_url.Request(product, headers=headers)
+        resp = py_url.urlopen(req)
         product_page = resp.read()  # raw html content for every book link
         extract_product_details(product_page)  # get name and price of book, pass the html content as parameter
     except:
-        return False
+        print("Cannot reach amazon.com, check your internet connection and try again later!!")
+        exit(0)
+
 
 """
 Main program logic.
@@ -78,10 +89,10 @@ Please change the keyword string if you want to search for another product
 """
 keyword = raw_input("Enter the book name you want to purchase:").strip()
 if keyword is '':
-    print "Looks like you have not entered any book name to be searched. Exiting!!"
+    print("Looks like you have not entered any book name to be searched. Exiting!!")
     exit(0)
 
-print "Processing your request for "+keyword+". This may take some time!!"
+print("Processing your request for "+keyword+". This may take some time!!")
 if ' ' in keyword:  # if space is present, replace with + for proper search
     keyword = keyword.replace(' ', '+')
 
@@ -103,15 +114,19 @@ for links in overall_search_results:
 
 
 links_file = (keyword+"_links.txt").replace("+", "_")
-print "Writing the search result links in "+links_file
-with open(links_file, "w") as out:
+print("Writing the search result links in "+links_file)
+with open(links_file, "a") as out:
+    out.write("\n\nRetrieved "+str(len(remove_dummy_links))+" URL's for "+keyword.replace("+"," ")+" on "+str(datetime.datetime.now())+"\n")
     out.write("\n".join(remove_dummy_links))
 out.close()
 
-print links_file+" created successfully. Please wait when we get the specific product details"
+print(links_file+" created successfully. Please wait when we get the specific product details")
 books_file = (keyword + "_details.txt").replace("+", "_")
 
-print "Retrieving the price details for popular "+keyword.replace("+", " ")+" in "+books_file
+print("Retrieving the price details for popular "+keyword.replace("+", " ")+" in "+books_file)
+with open(books_file, 'a') as output:  # output is redirected to this file.
+    output.write("\n\nProduct prices dated: "+str(datetime.datetime.now())+"\n")
+output.close()
 limit_search = 20
 for link in remove_dummy_links:
     if limit_search >= 0:
@@ -119,7 +134,7 @@ for link in remove_dummy_links:
         get_product_details(link)  # main logic to get book name and price.
         limit_search -= 1
 
-print "Product details are stored in "+books_file
+print("Product details are stored in "+books_file)
 
 """
 End of program
