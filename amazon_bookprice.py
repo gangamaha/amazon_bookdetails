@@ -4,8 +4,10 @@ import sys
 version = 3
 my_python_version = sys.version_info[0]  # My python version is 2.7 so my_python_version will be 2
 if my_python_version < version:
+    keyword = raw_input("Enter the book name you want to purchase:").strip()
     import urllib2 as py_url  # import urllib2 for Python 2.x
 else:
+    keyword = input("Enter the book name you want to purchase:").strip()
     import urllib.request as py_url  # import urllib.request for Python 3.x
 
 
@@ -86,7 +88,7 @@ The keyword is a string and search is carried in amazon.com website
 The product details and the prices from the web search is written in file output.txt
 Please change the keyword string if you want to search for another product
 """
-keyword = raw_input("Enter the book name you want to purchase:").strip()
+# keyword = raw_input("Enter the book name you want to purchase:").strip()
 if keyword is '':
     print("Looks like you have not entered any book name to be searched. Exiting!!")
     exit(0)
