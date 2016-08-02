@@ -1,4 +1,3 @@
-from __builtin__ import any
 import datetime
 import sys
 
@@ -104,20 +103,23 @@ raw_html = download_link(url)  # gets the raw content of the url search page
 # print raw_html
 overall_search_results = []
 overall_search_results = get_url_details(raw_html)  # gets the url of each search result from the entire page
+# print len(overall_search_results)
 remove_dummy_links = []
-for links in overall_search_results:
-    book_name = links.split("/")[3]
-    if 'https://www.amazon.com' in links and links not in remove_dummy_links:
-        if not any(book_name in check for check in remove_dummy_links):
-            # removes any unwanted links or duplicate results
-            remove_dummy_links.append(links)
+for link in overall_search_results:
+    if link.startswith("https"):
+        remove_dummy_links.append(link)
+
+# print len(remove_dummy_links)
+remove_dummy_links = list(set(remove_dummy_links))
+# print len(remove_dummy_links)
 
 
 links_file = (keyword+"_links.txt").replace("+", "_")
 print("Writing the search result links in "+links_file)
 with open(links_file, "a") as out:
     out.write("\n\nRetrieved "+str(len(remove_dummy_links))+" URL's for "+keyword.replace("+"," ")+" on "+str(datetime.datetime.now())+"\n")
-    out.write("\n".join(remove_dummy_links))
+    out.write\
+        ("\n".join(remove_dummy_links))
 out.close()
 
 print(links_file+" created successfully. Please wait when we get the specific product details")
@@ -127,12 +129,12 @@ print("Retrieving the price details for popular "+keyword.replace("+", " ")+" in
 with open(books_file, 'a') as output:  # output is redirected to this file.
     output.write("\n\nProduct prices dated: "+str(datetime.datetime.now())+"\n")
 output.close()
-limit_search = 20
+# limit_search = 20
 for link in remove_dummy_links:
-    if limit_search >= 0:
+    # if limit_search >= 0:
         # print link
         get_product_details(link)  # main logic to get book name and price.
-        limit_search -= 1
+        # limit_search -= 1
 
 print("Product details are stored in "+books_file)
 
